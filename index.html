@@ -58,6 +58,21 @@
             font-size: 3rem;
         }
 
+        .animated-text span {
+            opacity: 0;
+            animation: fadeLetter 3s infinite;
+            display: inline-block;
+        }
+
+        .animated-text span:nth-child(1) { animation-delay: 0s; }
+        /* Add delays for each letter */
+        /* Adjust delay values here as needed */
+
+        @keyframes fadeLetter {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
         /* Main content area */
         .content {
             background-color: transparent; 
@@ -69,13 +84,6 @@
             color: white;
             font-size: 1.5rem;
             overflow: hidden; 
-        }
-
-        /* Countdown styling */
-        .countdown {
-            font-size: 2rem;
-            color: #ffcc00; /* Countdown color */
-            margin-top: 20px;
         }
 
         /* Image container */
@@ -100,6 +108,57 @@
             transition: opacity 0.3s ease, transform 0.3s ease; 
             border-radius: 15px; 
             pointer-events: none; 
+        }
+
+        /* Floating ghost animation */
+        .ghost-container, .ghost-container-2 {
+            position: absolute; 
+            width: 40%; 
+            animation: float 3s ease-in-out infinite; 
+        }
+
+        .ghost-container {
+            bottom: 0;
+            right: 0;
+        }
+
+        .ghost-container-2 {
+            bottom: 20%; 
+            left: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Description box */
+        .description-box {
+            margin-top: 20px; 
+            padding: 15px; 
+            background-color: rgba(50, 50, 50, 0.8); 
+            border: 1px solid grey; 
+            border-radius: 10px; 
+            color: white; 
+            text-align: center; 
+            width: 35%; 
+            font-family: Arial, sans-serif; 
+            animation: fadeIn 1s ease-in-out; 
+            user-select: none; 
+            text-decoration: none; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+        }
+
+        .description-box:hover {
+            background-color: rgba(70, 70, 70, 0.9); 
+            transform: scale(1.05); 
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* FAQ box */
@@ -157,14 +216,6 @@
         </h1>
     </header>
 
-    <!-- Countdown Timer -->
-    <div class="content">
-        <div class="countdown" id="countdown"></div>
-        <div class="image-container" id="image-container">
-            <img id="main-image" src="Background.PNG" alt="">
-        </div>
-    </div>
-
     <!-- FAQ Box -->
     <div class="faq-box">
         <h2>FAQ</h2>
@@ -182,31 +233,23 @@
         </div>
     </div>
 
+    <!-- Main Content -->
+    <div class="content">
+        <div class="image-container" id="image-container">
+            <img id="main-image" src="Background.PNG" alt="">
+            <div class="ghost-container">
+                <img src="Ghost.png" alt="">
+            </div>
+            <div class="ghost-container-2">
+                <img src="Ghost2.png" alt="">
+            </div>
+        </div>
+        <a href="https://discord.gg/EEYc2KZsax" class="description-box">
+            <p>Thanks for visiting Nordic Development! The image you see above this box is a game we have been working on for some time now. We are releasing it in December sometime. Stay tuned!</p>
+        </a>
+    </div>
+
     <script>
-        // Countdown Timer
-        let countdownDuration = 3 * 60 * 60; // 3 hours in seconds
-        const countdownElement = document.getElementById('countdown');
-
-        const countdownInterval = setInterval(() => {
-            const hours = Math.floor(countdownDuration / 3600);
-            const minutes = Math.floor((countdownDuration % 3600) / 60);
-            const seconds = countdownDuration % 60;
-
-            countdownElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-            if (countdownDuration <= 0) {
-                clearInterval(countdownInterval);
-                countdownElement.innerHTML = 'Time is up!'; // Display message after countdown
-                setTimeout(() => {
-                    const script = document.createElement('script');
-                    script.src = ""; // This line removes the countdown script.
-                    document.body.removeChild(countdownElement.parentNode); // Remove the countdown element from the DOM
-                }, 1000); // Delay before removing the script
-            }
-
-            countdownDuration--;
-        }, 1000);
-
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
                 const faqItem = question.parentElement;
