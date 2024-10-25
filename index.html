@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nordic Development</title>
-    <link rel="icon" type="image/png" href="logo.png">
     
     <!-- Google Analytics Tracking Code -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M94RBQJ23R"></script>
@@ -28,13 +27,14 @@
             height: 100%;
             background-color: black; 
             font-family: 'Courier New', Courier, monospace; 
-            overflow: hidden; 
+            overflow-y: scroll; 
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
             position: relative; 
         }
 
-        /* Hide content until countdown is done */
-        .hidden-content {
-            display: none;
+        body::-webkit-scrollbar {
+            display: none; 
         }
 
         /* Header styling */
@@ -63,6 +63,10 @@
             animation: fadeLetter 3s infinite;
             display: inline-block;
         }
+
+        .animated-text span:nth-child(1) { animation-delay: 0s; }
+        /* Add delays for each letter */
+        /* Adjust delay values here as needed */
 
         @keyframes fadeLetter {
             0%, 100% { opacity: 0; }
@@ -121,6 +125,12 @@
         .ghost-container-2 {
             bottom: 20%; 
             left: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
         }
 
         /* Description box */
@@ -193,59 +203,59 @@
         .faq-item.open .faq-answer {
             display: block;
         }
+        
     </style>
 </head>
 <body>
 
-    <!-- Main Content -->
-    <div class="hidden-content" id="main-content">
-        <header>
-            <h1 class="animated-text">
-                <span>N</span><span>o</span><span>r</span><span>d</span><span>i</span><span>c</span> 
-                <span>D</span><span>e</span><span>v</span><span>e</span><span>l</span><span>o</span><span>p</span><span>m</span><span>e</span><span>n</span><span>t</span>
-            </h1>
-        </header>
+    <!-- Header -->
+    <header>
+        <h1 class="animated-text">
+            <span>N</span><span>o</span><span>r</span><span>d</span><span>i</span><span>c</span> 
+            <span>D</span><span>e</span><span>v</span><span>e</span><span>l</span><span>o</span><span>p</span><span>m</span><span>e</span><span>n</span><span>t</span>
+        </h1>
+    </header>
 
-        <!-- FAQ Box -->
-        <div class="faq-box">
-            <h2>FAQ</h2>
-            <div class="faq-item">
-                <div class="faq-question">What is Nordic Development?</div>
-                <div class="faq-answer">Nordic Development is a game development studio focused on creating immersive horror games.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">When is your next game releasing?</div>
-                <div class="faq-answer">We plan to release our next game, "Bounded," in December. Stay tuned!</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">Where can I find updates?</div>
-                <div class="faq-answer">Join our Discord or check back here for the latest updates!</div>
-            </div>
+    <!-- FAQ Box -->
+    <div class="faq-box">
+        <h2>FAQ</h2>
+        <div class="faq-item">
+            <div class="faq-question">What is Nordic Development?</div>
+            <div class="faq-answer">Nordic Development is a game development studio focused on creating immersive horror games.</div>
         </div>
-
-        <!-- Main Content -->
-        <div class="content">
-            <div class="image-container" id="image-container">
-                <img id="main-image" src="Background.PNG" alt="">
-                <div class="ghost-container">
-                    <img src="Ghost.png" alt="">
-                </div>
-                <div class="ghost-container-2">
-                    <img src="Ghost2.png" alt="">
-                </div>
-            </div>
-            <a href="https://discord.gg/EEYc2KZsax" class="description-box">
-                <p>Thanks for visiting Nordic Development! The image you see above this box is a game we have been working on for some time now. We are releasing it in December sometime. Stay tuned!</p>
-            </a>
+        <div class="faq-item">
+            <div class="faq-question">When is your next game releasing?</div>
+            <div class="faq-answer">We plan to release our next game, "Bounded," in December. Stay tuned!</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Where can I find updates?</div>
+            <div class="faq-answer">Join our Discord or check back here for the latest updates!</div>
         </div>
     </div>
 
-    <!-- Background Sound -->
-    <audio id="background-sound" src="scary.mp3" loop volume="0.5" autoplay></audio>
+    <!-- Main Content -->
+    <div class="content">
+        <div class="image-container" id="image-container">
+            <img id="main-image" src="Background.PNG" alt="">
+            <div class="ghost-container">
+                <img src="Ghost.png" alt="">
+            </div>
+            <div class="ghost-container-2">
+                <img src="Ghost2.png" alt="">
+            </div>
+        </div>
+        <a href="https://discord.gg/EEYc2KZsax" class="description-box">
+            <p>Thanks for visiting Nordic Development! The image you see above this box is a game we have been working on for some time now. We are releasing it in December sometime. Stay tuned!</p>
+        </a>
+    </div>
 
     <script>
-        // Show main content
-        document.getElementById("main-content").classList.remove("hidden-content");
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                faqItem.classList.toggle('open');
+            });
+        });
     </script>
 </body>
 </html>
