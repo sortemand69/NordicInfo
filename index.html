@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nordic Development</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            background-color: black; 
+            font-family: 'Courier New', Courier, monospace; 
+            overflow-y: scroll; 
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+            position: relative; 
+        }
+
+        body::-webkit-scrollbar {
+            display: none; 
+        }
+
+        header {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7); 
+            padding: 20px;
+            border-bottom: 2px solid grey; 
+            animation: slideDown 0.5s ease-in-out; 
+            position: relative; /* Enable absolute positioning for children */
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .animated-text {
+            display: inline-block;
+            color: #ffffff;
+            font-size: 3rem;
+        }
+
+        .animated-text span {
+            opacity: 0;
+            animation: fadeLetter 3s infinite;
+            display: inline-block;
+        }
+
+        .animated-text span:nth-child(1) { animation-delay: 0s; }
+        .animated-text span:nth-child(2) { animation-delay: 0.1s; }
+        .animated-text span:nth-child(3) { animation-delay: 0.2s; }
+        .animated-text span:nth-child(4) { animation-delay: 0.3s; }
+        .animated-text span:nth-child(5) { animation-delay: 0.4s; }
+        .animated-text span:nth-child(6) { animation-delay: 0.5s; }
+        .animated-text span:nth-child(7) { animation-delay: 0.6s; }
+        .animated-text span:nth-child(8) { animation-delay: 0.7s; }
+        .animated-text span:nth-child(9) { animation-delay: 0.8s; }
+        .animated-text span:nth-child(10) { animation-delay: 0.9s; }
+        .animated-text span:nth-child(11) { animation-delay: 1s; }
+        .animated-text span:nth-child(12) { animation-delay: 1.1s; }
+        .animated-text span:nth-child(13) { animation-delay: 1.2s; }
+        .animated-text span:nth-child(14) { animation-delay: 1.3s; }
+        .animated-text span:nth-child(15) { animation-delay: 1.4s; }
+
+        @keyframes fadeLetter {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .content {
+            background-color: transparent; 
+            height: 100vh; 
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            color: white;
+            font-size: 1.5rem;
+            overflow: hidden; 
+        }
+
+        .image-container {
+            position: relative; 
+            max-width: 35%; 
+            height: auto;
+            margin-top: 20px; 
+            transition: transform 0.3s ease, filter 0.3s ease; 
+            border-radius: 15px;
+            animation: zoomIn 1s; 
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            transition: opacity 0.3s ease, transform 0.3s ease; 
+            border-radius: 15px; 
+            pointer-events: none; 
+        }
+
+        .ghost-container {
+            position: absolute; 
+            bottom: 0; 
+            right: 0; 
+            width: 40%; 
+            animation: float 3s ease-in-out infinite; /* Floating animation */
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); } /* Adjust height of the float */
+            100% { transform: translateY(0); }
+        }
+
+        .ghost-container img {
+            width: 100%;
+            height: auto;
+            pointer-events: none; 
+        }
+
+        .small-ghost {
+            position: absolute;
+            top: 10px; /* Adjust to position in header */
+            left: 10px; /* Adjust to position in header */
+            width: 20px; /* Small size */
+            height: auto;
+            animation: smallFloat 3s ease-in-out infinite; /* Floating animation */
+        }
+
+        @keyframes smallFloat {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); } /* Adjust height of the float */
+            100% { transform: translateY(0); }
+        }
+
+        .description-box {
+            margin-top: 20px; 
+            padding: 15px; 
+            background-color: rgba(50, 50, 50, 0.8); 
+            border: 1px solid grey; 
+            border-radius: 10px; 
+            color: white; 
+            text-align: center; 
+            width: 35%; 
+            font-family: Arial, sans-serif; 
+            animation: fadeIn 1s ease-in-out; 
+            user-select: none; 
+            text-decoration: none; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+        }
+
+        .description-box:hover {
+            background-color: rgba(70, 70, 70, 0.9); 
+            transform: scale(1.05); 
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .long-content {
+            height: 150vh; 
+            background: transparent; 
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="animated-text">
+            <span>N</span><span>o</span><span>r</span><span>d</span><span>i</span><span>c</span> 
+            <span>D</span><span>e</span><span>v</span><span>e</span><span>l</span><span>o</span><span>p</span><span>m</span><span>e</span><span>n</span><span>t</span>
+        </h1>
+        <div class="small-ghost">
+            <img src="Ghost.png" alt="small ghost">
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="image-container" id="image-container">
+            <img id="main-image" src="Background.PNG" alt="">
+            <div class="ghost-container">
+                <img src="Ghost.png" alt="">
+            </div>
+        </div>
+
+        <a href="https://discord.gg/EEYc2KZsax" class="description-box">
+            <p>Thanks for visiting Nordic Development! The image you see above this box is a game we have been working on for some time now. We are releasing it in December sometime. Stay tuned!</p>
+        </a>
+    </div>
+
+    <div class="long-content"></div> 
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const mainImage = document.getElementById('main-image');
+            const imageContainer = document.getElementById('image-container');
+            const scrollPosition = window.scrollY;
+
+            const newOpacity = Math.max(0.2, 1 - scrollPosition / 600);
+            mainImage.style.opacity = newOpacity;
+
+            const scaleValue = Math.max(1, 1 + scrollPosition / 1000);
+            imageContainer.style.transform = `scale(${scaleValue})`;
+        });
+    </script>
+
+</body>
+</html>
