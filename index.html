@@ -156,9 +156,14 @@
             font-size: 3rem;
             color: white;
             margin-top: 20px;
-            animation: fadeIn 1s ease-in-out;
+            animation: fadeInOut 3s ease-in-out infinite;
             text-align: center;
             font-family: 'Courier New', Courier, monospace;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
         }
 
         /* FAQ box */
