@@ -65,8 +65,6 @@
         }
 
         .animated-text span:nth-child(1) { animation-delay: 0s; }
-        /* Add delays for each letter */
-        /* Adjust delay values here as needed */
 
         @keyframes fadeLetter {
             0%, 100% { opacity: 0; }
@@ -203,7 +201,26 @@
         .faq-item.open .faq-answer {
             display: block;
         }
-        
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .animated-text {
+                font-size: 2rem; 
+            }
+            .content {
+                font-size: 1rem; 
+            }
+            .image-container {
+                max-width: 90%; 
+            }
+            .faq-box {
+                width: 80%;
+                right: 10px; 
+            }
+            .description-box {
+                width: 90%; 
+            }
+        }
     </style>
 </head>
 <body>
@@ -236,12 +253,12 @@
     <!-- Main Content -->
     <div class="content">
         <div class="image-container" id="image-container">
-            <img id="main-image" src="Background.PNG" alt="">
+            <img id="main-image" src="Background.PNG" alt="Game Background">
             <div class="ghost-container">
-                <img src="Ghost.png" alt="">
+                <img src="Ghost.png" alt="Ghost 1">
             </div>
             <div class="ghost-container-2">
-                <img src="Ghost2.png" alt="">
+                <img src="Ghost2.png" alt="Ghost 2">
             </div>
         </div>
         <a href="https://discord.gg/EEYc2KZsax" class="description-box">
