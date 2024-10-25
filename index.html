@@ -71,6 +71,34 @@
             50% { opacity: 1; }
         }
 
+        /* Navigation bar */
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            font-size: 1.5rem;
+            color: white;
+            font-family: 'Courier New', Courier, monospace; 
+        }
+
+        .nav-item {
+            opacity: 0;
+            animation: fadeLetter 0.5s forwards;
+        }
+
+        .nav-item:nth-child(1) { animation-delay: 0s; }
+        .nav-item:nth-child(2) { animation-delay: 0.5s; }
+        .nav-item:nth-child(3) { animation-delay: 1s; }
+
+        .dot {
+            margin: 0 10px; 
+            opacity: 0; 
+            animation: fadeLetter 0.5s forwards; 
+        }
+
+        .dot:nth-child(1) { animation-delay: 0.3s; }
+        .dot:nth-child(2) { animation-delay: 0.8s; }
+
         /* Main content area */
         .content {
             background-color: transparent; 
@@ -243,35 +271,41 @@
         </h1>
     </header>
 
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <a href="index.html" class="nav-item">Home</a>
+        <span class="dot">.</span>
+        <a href="https://discord.gg/kADMbpAz3Y" class="nav-item">Discord</a>
+        <span class="dot">.</span>
+        <a href="about.html" class="nav-item">About</a>
+    </div>
+
     <!-- FAQ Box -->
     <div class="faq-box">
         <h2>FAQ</h2>
         <div class="faq-item">
             <div class="faq-question">What is Nordic Development?</div>
-            <div class="faq-answer">Nordic Development is a game development studio focused on creating immersive horror games.</div>
+            <div class="faq-answer">Nordic Development is a game studio focusing on unique and engaging gaming experiences.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question">When is your next game releasing?</div>
-            <div class="faq-answer">We plan to release our next game, "Bounded," in December. Stay tuned!</div>
+            <div class="faq-question">How can I contact you?</div>
+            <div class="faq-answer">You can reach us through our Discord or email us at contact@nordicdevelopment.com.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-question">Where can I find updates?</div>
-            <div class="faq-answer">Join our Discord or check back here for the latest updates!</div>
+            <div class="faq-question">When will the games be released?</div>
+            <div class="faq-answer">Release dates will be announced on our website and social media.</div>
         </div>
     </div>
 
     <!-- Main Content -->
     <div class="content">
-        <h2 class="games-header">Games</h2>
-        <div class="image-container" id="image-container">
-            <img id="main-image" src="Background.PNG" alt="Game Background">
-            <div class="ghost-container">
-                <img src="Ghost.png" alt="Ghost 1">
-            </div>
+        <div class="games-header">Games</div>
+        <div class="image-container">
+            <img src="project1.png" alt="Project Scooter">
         </div>
-        <a href="https://discord.gg/EEYc2KZsax" class="description-box">
-            <p>Thanks for visiting Nordic Development! The image you see above this box is a game we have been working on for some time now. We are releasing it in December sometime. Stay tuned!</p>
-        </a>
+        <div class="description-box" onclick="window.location.href='about.html';">
+            Click here to learn more about Project Scooter!
+        </div>
     </div>
 
     <script>
@@ -280,6 +314,20 @@
                 const faqItem = question.parentElement;
                 faqItem.classList.toggle('open');
             });
+        });
+
+        // Animation for the nav items
+        const navItems = document.querySelectorAll('.nav-item');
+        const dots = document.querySelectorAll('.dot');
+
+        navItems.forEach((item, index) => {
+            item.style.opacity = 1; // Set opacity to 1 immediately for initial state
+            item.classList.add('nav-item'); // Re-add class for animation
+        });
+
+        dots.forEach((dot, index) => {
+            dot.style.opacity = 1; // Set opacity to 1 immediately for initial state
+            dot.classList.add('dot'); // Re-add class for animation
         });
     </script>
 </body>
