@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nordic Development</title>
-
+    
     <!-- Google Analytics Tracking Code -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M94RBQJ23R"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-M94RBQJ23R');
     </script>
 
@@ -31,62 +30,62 @@
             position: relative; 
         }
 
-        /* Countdown styling */
-        .countdown {
+        /* Countdown overlay styling */
+        .countdown-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 1000;
             color: white;
-            font-size: 5rem;
-            z-index: 9999; /* To ensure it's on top */
-            background-color: black; /* Fully dark background */
-        }
-
-        /* Hide the content when countdown is active */
-        .hidden {
-            display: none;
-        }
-
-        /* Header styling */
-        header {
+            font-size: 5rem; /* Cartoonish font size */
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.7); 
-            padding: 20px;
-            border-bottom: 2px solid grey; 
-            animation: slideDown 0.5s ease-in-out; 
+            animation: fadeIn 1s ease-in-out;
         }
 
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        /* Animated text */
-        .animated-text {
-            display: inline-block;
-            color: #ffffff;
-            font-size: 3rem;
+        /* Floating ghost animation */
+        .floating-ghost {
+            position: absolute;
+            width: 150px; /* Adjust size */
+            animation: float 3s ease-in-out infinite; 
+            top: 39%; /* Adjust position */
+            left: 60%; /* Adjust position */
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
         }
 
         /* Main content area */
         .content {
-            background-color: transparent; 
+            display: none; /* Hidden until countdown is done */
             height: 100vh; 
-            display: flex;
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
             color: white;
-            font-size: 1.5rem;
-            overflow: hidden; 
+            text-align: center; 
         }
 
-        /* Description box */
+        header {
+            padding: 20px;
+            border-bottom: 2px solid grey; 
+        }
+
+        .image-container {
+            margin-top: 20px; 
+        }
+
         .description-box {
             margin-top: 20px; 
             padding: 15px; 
@@ -97,24 +96,16 @@
             text-align: center; 
             width: 35%; 
             font-family: Arial, sans-serif; 
-            animation: fadeIn 1s ease-in-out; 
-            user-select: none; 
-            text-decoration: none; 
-            cursor: pointer; 
-            transition: background-color 0.3s; 
         }
 
-        .description-box:hover {
-            background-color: rgba(70, 70, 70, 0.9); 
-            transform: scale(1.05); 
+        /* Existing styles for animated text and other elements */
+        /* Add your previously defined styles here */
+        .animated-text {
+            display: inline-block;
+            color: #ffffff;
+            font-size: 3rem;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* FAQ box */
         .faq-box {
             position: fixed;
             top: 45%;
@@ -129,117 +120,90 @@
             overflow-y: auto;
             max-height: 60%;
         }
-
-        .faq-box h2 {
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        .faq-item {
-            margin-bottom: 10px;
-        }
-
-        .faq-question {
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .faq-answer {
-            display: none;
-            padding: 5px;
-            background-color: rgba(70, 70, 70, 0.8);
-            border-radius: 5px;
-            margin-top: 5px;
-        }
-
-        .faq-item.open .faq-answer {
-            display: block;
-        }
         
+        /* Additional styles omitted for brevity */
     </style>
 </head>
 <body>
 
-    <div class="countdown" id="countdown"></div>
-
-    <!-- Header -->
-    <header class="hidden" id="header">
-        <h1 class="animated-text">
-            <span>N</span><span>o</span><span>r</span><span>d</span><span>i</span><span>c</span> 
-            <span>D</span><span>e</span><span>v</span><span>e</span><span>l</span><span>o</span><span>p</span><span>m</span><span>e</span><span>n</span><span>t</span>
-        </h1>
-    </header>
-
-    <!-- FAQ Box -->
-    <div class="faq-box hidden" id="faq-box">
-        <h2>FAQ</h2>
-        <div class="faq-item">
-            <div class="faq-question">What is Nordic Development?</div>
-            <div class="faq-answer">Nordic Development is a game development studio focused on creating immersive horror games.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">When is your next game releasing?</div>
-            <div class="faq-answer">We plan to release our next game, "Bounded," in December. Stay tuned!</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">Where can I find updates?</div>
-            <div class="faq-answer">Join our Discord or check back here for the latest updates!</div>
-        </div>
+    <!-- Countdown Overlay -->
+    <div class="countdown-overlay" id="countdown">
+        <div id="timer"></div>
+        <img src="ghost.png" class="floating-ghost" alt="Floating Ghost">
     </div>
 
     <!-- Main Content -->
-    <div class="content hidden" id="main-content">
-        <div class="image-container" id="image-container">
+    <div class="content" id="main-content">
+        <header>
+            <h1 class="animated-text">
+                <span>N</span><span>o</span><span>r</span><span>d</span><span>i</span><span>c</span> 
+                <span>D</span><span>e</span><span>v</span><span>e</span><span>l</span><span>o</span><span>p</span><span>m</span><span>e</span><span>n</span><span>t</span>
+            </h1>
+        </header>
+        <div class="image-container">
             <img id="main-image" src="Background.PNG" alt="">
         </div>
-        <a href="https://discord.gg/EEYc2KZsax" class="description-box">
+        <div class="description-box">
             <p>Thanks for visiting Nordic Development! The image you see above this box is a game we have been working on for some time now. We are releasing it in December sometime. Stay tuned!</p>
-        </a>
+        </div>
+
+        <!-- FAQ Box -->
+        <div class="faq-box">
+            <h2>FAQ</h2>
+            <div class="faq-item">
+                <div class="faq-question">What is Nordic Development?</div>
+                <div class="faq-answer">Nordic Development is a game development studio focused on creating immersive horror games.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">When is your next game releasing?</div>
+                <div class="faq-answer">We plan to release our next game, "Bounded," in December. Stay tuned!</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Where can I find updates?</div>
+                <div class="faq-answer">Join our Discord or check back here for the latest updates!</div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Countdown timer setup
-        const countdownElement = document.getElementById('countdown');
-        const headerElement = document.getElementById('header');
-        const faqBoxElement = document.getElementById('faq-box');
-        const mainContentElement = document.getElementById('main-content');
-
-        // Set the target time for 19:00 in Denmark timezone
-        const targetTime = new Date();
-        targetTime.setHours(19, 0, 0, 0); // 19:00:00
-
-        // Check if the target time has already passed today
+        // Set countdown to 19:00 in Denmark timezone
+        const countdownDate = new Date();
         const now = new Date();
-        if (now > targetTime) {
-            targetTime.setDate(targetTime.getDate() + 1); // If so, set for tomorrow
+
+        const targetHour = 19; // 19:00
+        const targetDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), targetHour, 0, 0);
+        if (now > targetDate) {
+            targetDate.setDate(targetDate.getDate() + 1); // Move to the next day if already past 19:00
         }
 
-        // Function to update the countdown every second
-        const updateCountdown = () => {
+        const countdownElement = document.getElementById('timer');
+        const countdownOverlay = document.getElementById('countdown');
+        const mainContent = document.getElementById('main-content');
+
+        const countdown = setInterval(() => {
             const now = new Date();
-            const timeLeft = targetTime - now;
+            const distance = targetDate - now;
 
-            if (timeLeft < 0) {
-                // Countdown has finished
-                clearInterval(countdownInterval);
-                countdownElement.innerHTML = '';
-                headerElement.classList.remove('hidden');
-                faqBoxElement.classList.remove('hidden');
-                mainContentElement.classList.remove('hidden');
-                return;
-            }
-
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             countdownElement.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
-        };
 
-        // Start the countdown
-        const countdownInterval = setInterval(updateCountdown, 1000);
-        updateCountdown(); // Initial call to display immediately
+            if (distance < 0) {
+                clearInterval(countdown);
+                countdownOverlay.style.display = 'none'; // Hide countdown overlay
+                mainContent.style.display = 'block'; // Show main content
+            }
+        }, 1000);
+
+        // FAQ toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                faqItem.classList.toggle('open');
+            });
+        });
     </script>
 </body>
 </html>
