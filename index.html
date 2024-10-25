@@ -8,10 +8,11 @@
     <!-- Google Analytics Tracking Code -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M94RBQJ23R"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-M94RBQJ23R');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-M94RBQJ23R');
     </script>
 
     <style>
@@ -30,8 +31,8 @@
             position: relative; 
         }
 
-        /* Countdown overlay */
-        #countdown {
+        /* Countdown styling */
+        .countdown {
             position: fixed;
             top: 0;
             left: 0;
@@ -40,18 +41,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 5rem;
             color: white;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
+            font-size: 5rem;
+            z-index: 9999; /* To ensure it's on top */
+            background: rgba(0, 0, 0, 0.9);
         }
 
-        /* Main content area */
-        .content {
-            display: none; /* Hide main content initially */
-            color: white;
-            text-align: center;
-            padding: 20px;
+        /* Hide the content when countdown is active */
+        .hidden {
+            display: none;
         }
 
         /* Header styling */
@@ -60,6 +58,12 @@
             background-color: rgba(0, 0, 0, 0.7); 
             padding: 20px;
             border-bottom: 2px solid grey; 
+            animation: slideDown 0.5s ease-in-out; 
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         /* Animated text */
@@ -67,6 +71,47 @@
             display: inline-block;
             color: #ffffff;
             font-size: 3rem;
+        }
+
+        /* Main content area */
+        .content {
+            background-color: transparent; 
+            height: 100vh; 
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            color: white;
+            font-size: 1.5rem;
+            overflow: hidden; 
+        }
+
+        /* Description box */
+        .description-box {
+            margin-top: 20px; 
+            padding: 15px; 
+            background-color: rgba(50, 50, 50, 0.8); 
+            border: 1px solid grey; 
+            border-radius: 10px; 
+            color: white; 
+            text-align: center; 
+            width: 35%; 
+            font-family: Arial, sans-serif; 
+            animation: fadeIn 1s ease-in-out; 
+            user-select: none; 
+            text-decoration: none; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+        }
+
+        .description-box:hover {
+            background-color: rgba(70, 70, 70, 0.9); 
+            transform: scale(1.05); 
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* FAQ box */
@@ -85,62 +130,116 @@
             max-height: 60%;
         }
 
-        /* Additional styles for other elements... */
+        .faq-box h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .faq-item {
+            margin-bottom: 10px;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 5px;
+            background-color: rgba(70, 70, 70, 0.8);
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+        
     </style>
 </head>
 <body>
 
-    <div id="countdown">Loading...</div>
+    <div class="countdown" id="countdown"></div>
 
     <!-- Header -->
-    <header>
+    <header class="hidden" id="header">
         <h1 class="animated-text">
             <span>N</span><span>o</span><span>r</span><span>d</span><span>i</span><span>c</span> 
             <span>D</span><span>e</span><span>v</span><span>e</span><span>l</span><span>o</span><span>p</span><span>m</span><span>e</span><span>n</span><span>t</span>
         </h1>
     </header>
 
+    <!-- FAQ Box -->
+    <div class="faq-box hidden" id="faq-box">
+        <h2>FAQ</h2>
+        <div class="faq-item">
+            <div class="faq-question">What is Nordic Development?</div>
+            <div class="faq-answer">Nordic Development is a game development studio focused on creating immersive horror games.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">When is your next game releasing?</div>
+            <div class="faq-answer">We plan to release our next game, "Bounded," in December. Stay tuned!</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Where can I find updates?</div>
+            <div class="faq-answer">Join our Discord or check back here for the latest updates!</div>
+        </div>
+    </div>
+
     <!-- Main Content -->
-    <div class="content">
-        <h2>Welcome to Nordic Development!</h2>
-        <p>Main content goes here...</p>
-        <!-- Add your main content, images, etc. -->
+    <div class="content hidden" id="main-content">
+        <div class="image-container" id="image-container">
+            <img id="main-image" src="Background.PNG" alt="">
+        </div>
+        <a href="https://discord.gg/EEYc2KZsax" class="description-box">
+            <p>Thanks for visiting Nordic Development! The image you see above this box is a game we have been working on for some time now. We are releasing it in December sometime. Stay tuned!</p>
+        </a>
     </div>
 
     <script>
-        // Set a fixed end time (3 hours from the start)
-        const countdownDuration = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
-        const startTime = Date.now();
-        const endTime = startTime + countdownDuration;
-
+        // Countdown timer setup
         const countdownElement = document.getElementById('countdown');
-        const contentElement = document.querySelector('.content');
+        const headerElement = document.getElementById('header');
+        const faqBoxElement = document.getElementById('faq-box');
+        const mainContentElement = document.getElementById('main-content');
 
-        function updateCountdown() {
-            const now = Date.now();
-            const remainingTime = endTime - now;
+        // Set the target time for 19:00 in Denmark timezone
+        const targetTime = new Date();
+        targetTime.setHours(19, 0, 0, 0); // 19:00:00
 
-            if (remainingTime <= 0) {
-                // Time's up; hide the countdown and show the content
-                countdownElement.style.display = 'none';
-                contentElement.style.display = 'block';
+        // Check if the target time has already passed today
+        const now = new Date();
+        if (now > targetTime) {
+            targetTime.setDate(targetTime.getDate() + 1); // If so, set for tomorrow
+        }
+
+        // Function to update the countdown every second
+        const updateCountdown = () => {
+            const now = new Date();
+            const timeLeft = targetTime - now;
+
+            if (timeLeft < 0) {
+                // Countdown has finished
+                clearInterval(countdownInterval);
+                countdownElement.innerHTML = '';
+                headerElement.classList.remove('hidden');
+                faqBoxElement.classList.remove('hidden');
+                mainContentElement.classList.remove('hidden');
                 return;
             }
 
-            // Calculate hours, minutes, and seconds
-            const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            // Display the countdown
-            countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
-
-            // Update the countdown every second
-            setTimeout(updateCountdown, 1000);
-        }
+            countdownElement.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
+        };
 
         // Start the countdown
-        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call to display immediately
     </script>
 </body>
 </html>
