@@ -27,188 +27,43 @@
             height: 100%;
             background-color: black; 
             font-family: 'Courier New', Courier, monospace; 
-            overflow-y: scroll; 
-            scrollbar-width: none; 
-            -ms-overflow-style: none; 
-            position: relative; 
+            overflow: hidden; 
         }
 
-        body::-webkit-scrollbar {
-            display: none; 
+        /* Full-Screen Countdown */
+        .countdown-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #ffcc00; /* Countdown color */
+            font-size: 5rem; /* Large font for visibility */
+            z-index: 9999; /* Make sure it stays on top */
         }
 
         /* Header styling */
         header {
-            text-align: center;
-            background-color: rgba(0, 0, 0, 0.7); 
-            padding: 20px;
-            border-bottom: 2px solid grey; 
-            animation: slideDown 0.5s ease-in-out; 
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* Animated text */
-        .animated-text {
-            display: inline-block;
-            color: #ffffff;
-            font-size: 3rem;
-        }
-
-        .animated-text span {
-            opacity: 0;
-            animation: fadeLetter 3s infinite;
-            display: inline-block;
-        }
-
-        .animated-text span:nth-child(1) { animation-delay: 0s; }
-        /* Add delays for each letter */
-        /* Adjust delay values here as needed */
-
-        @keyframes fadeLetter {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
-
-        /* Main content area */
-        .content {
-            background-color: transparent; 
-            height: 100vh; 
-            display: flex;
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            color: white;
-            font-size: 1.5rem;
-            overflow: hidden; 
-        }
-
-        /* Image container */
-        .image-container {
-            position: relative; 
-            max-width: 35%; 
-            height: auto;
-            margin-top: 20px; 
-            transition: transform 0.3s ease, filter 0.3s ease; 
-            border-radius: 15px;
-            animation: zoomIn 1s; 
-        }
-
-        @keyframes zoomIn {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .image-container img {
-            width: 100%;
-            height: auto;
-            transition: opacity 0.3s ease, transform 0.3s ease; 
-            border-radius: 15px; 
-            pointer-events: none; 
-        }
-
-        /* Floating ghost animation */
-        .ghost-container, .ghost-container-2 {
-            position: absolute; 
-            width: 40%; 
-            animation: float 3s ease-in-out infinite; 
-        }
-
-        .ghost-container {
-            bottom: 0;
-            right: 0;
-        }
-
-        .ghost-container-2 {
-            bottom: 20%; 
-            left: 0;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-        }
-
-        /* Description box */
-        .description-box {
-            margin-top: 20px; 
-            padding: 15px; 
-            background-color: rgba(50, 50, 50, 0.8); 
-            border: 1px solid grey; 
-            border-radius: 10px; 
-            color: white; 
-            text-align: center; 
-            width: 35%; 
-            font-family: Arial, sans-serif; 
-            animation: fadeIn 1s ease-in-out; 
-            user-select: none; 
-            text-decoration: none; 
-            cursor: pointer; 
-            transition: background-color 0.3s; 
-        }
-
-        .description-box:hover {
-            background-color: rgba(70, 70, 70, 0.9); 
-            transform: scale(1.05); 
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            display: none; /* Hide the header */
         }
 
         /* FAQ box */
         .faq-box {
-            position: fixed;
-            top: 45%;
-            right: 20px;
-            width: 20%;
-            padding: 15px;
-            background-color: rgb(0, 0, 0);
-            color: white;
-            border: 1px solid grey;
-            border-radius: 10px;
-            z-index: 10;
-            overflow-y: auto;
-            max-height: 60%;
+            display: none; /* Hide the FAQ box */
         }
 
-        .faq-box h2 {
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        .faq-item {
-            margin-bottom: 10px;
-        }
-
-        .faq-question {
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .faq-answer {
-            display: none;
-            padding: 5px;
-            background-color: rgba(70, 70, 70, 0.8);
-            border-radius: 5px;
-            margin-top: 5px;
-        }
-
-        .faq-item.open .faq-answer {
-            display: block;
-        }
-        
+        /* Add any other styles needed for the rest of the page */
     </style>
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Countdown Overlay -->
+    <div class="countdown-overlay" id="countdown"></div>
+
     <header>
         <h1 class="animated-text">
             <span>N</span><span>o</span><span>r</span><span>d</span><span>i</span><span>c</span> 
@@ -216,7 +71,6 @@
         </h1>
     </header>
 
-    <!-- FAQ Box -->
     <div class="faq-box">
         <h2>FAQ</h2>
         <div class="faq-item">
@@ -233,23 +87,42 @@
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="content">
-        <div class="image-container" id="image-container">
-            <img id="main-image" src="Background.PNG" alt="">
-            <div class="ghost-container">
-                <img src="Ghost.png" alt="">
-            </div>
-            <div class="ghost-container-2">
-                <img src="Ghost2.png" alt="">
-            </div>
-        </div>
-        <a href="https://discord.gg/EEYc2KZsax" class="description-box">
-            <p>Thanks for visiting Nordic Development! The image you see above this box is a game we have been working on for some time now. We are releasing it in December sometime. Stay tuned!</p>
-        </a>
-    </div>
-
     <script>
+        // Check localStorage for countdown state
+        const countdownEnd = localStorage.getItem('countdownEnd');
+
+        if (!countdownEnd) {
+            const countdownDuration = 3 * 60 * 60; // 3 hours in seconds
+            const endTime = Date.now() + countdownDuration * 1000; // Set end time
+            localStorage.setItem('countdownEnd', endTime);
+        }
+
+        const countdownElement = document.getElementById('countdown');
+
+        const updateCountdown = () => {
+            const countdownEnd = localStorage.getItem('countdownEnd');
+            const remainingTime = countdownEnd - Date.now();
+            
+            if (remainingTime <= 0) {
+                countdownElement.innerHTML = 'Time is up!';
+                setTimeout(() => {
+                    countdownElement.parentNode.removeChild(countdownElement); // Remove the countdown element from the DOM
+                }, 1000); // Delay before removing
+                localStorage.removeItem('countdownEnd'); // Clear countdown from localStorage
+            } else {
+                const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+                countdownElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        };
+
+        setInterval(updateCountdown, 1000); // Update countdown every second
+
+        // Initially call to set the countdown display
+        updateCountdown();
+
+        // Hide the FAQ box
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
                 const faqItem = question.parentElement;
