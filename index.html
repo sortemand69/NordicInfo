@@ -151,6 +151,16 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Games header */
+        .games-header {
+            font-size: 3rem;
+            color: white;
+            margin-top: 20px;
+            animation: fadeIn 1s ease-in-out;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
         /* FAQ box */
         .faq-box {
             position: fixed;
@@ -212,6 +222,9 @@
             .description-box {
                 width: 90%; 
             }
+            .games-header {
+                font-size: 2.5rem; 
+            }
         }
     </style>
 </head>
@@ -244,6 +257,7 @@
 
     <!-- Main Content -->
     <div class="content">
+        <h2 class="games-header">Games</h2>
         <div class="image-container" id="image-container">
             <img id="main-image" src="Background.PNG" alt="Game Background">
             <div class="ghost-container">
