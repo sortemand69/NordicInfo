@@ -31,7 +31,6 @@
             padding: 20px;
             border-bottom: 2px solid grey; 
             animation: slideDown 0.5s ease-in-out; 
-            position: relative; /* Enable absolute positioning for children */
         }
 
         @keyframes slideDown {
@@ -127,19 +126,19 @@
             pointer-events: none; 
         }
 
-        .small-ghost {
-            position: absolute;
-            top: 10px; /* Adjust to position in header */
-            left: 10px; /* Adjust to position in header */
-            width: 20px; /* Small size */
-            height: auto;
-            animation: smallFloat 3s ease-in-out infinite; /* Floating animation */
+        /* Second ghost container */
+        .ghost-container-2 {
+            position: absolute; 
+            bottom: 20%; /* Adjust height as necessary */
+            left: 0; 
+            width: 40%; 
+            animation: float 3s ease-in-out infinite; /* Floating animation */
         }
 
-        @keyframes smallFloat {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-5px); } /* Adjust height of the float */
-            100% { transform: translateY(0); }
+        .ghost-container-2 img {
+            width: 100%;
+            height: auto;
+            pointer-events: none; 
         }
 
         .description-box {
@@ -182,9 +181,6 @@
             <span>N</span><span>o</span><span>r</span><span>d</span><span>i</span><span>c</span> 
             <span>D</span><span>e</span><span>v</span><span>e</span><span>l</span><span>o</span><span>p</span><span>m</span><span>e</span><span>n</span><span>t</span>
         </h1>
-        <div class="small-ghost">
-            <img src="Ghost.png" alt="small ghost">
-        </div>
     </header>
 
     <div class="content">
@@ -192,6 +188,9 @@
             <img id="main-image" src="Background.PNG" alt="">
             <div class="ghost-container">
                 <img src="Ghost.png" alt="">
+            </div>
+            <div class="ghost-container-2">
+                <img src="Ghost2.png" alt=""> <!-- Ensure you have a second ghost image -->
             </div>
         </div>
 
