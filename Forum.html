@@ -189,8 +189,8 @@
             forumsContainer.innerHTML = ''; // Clear existing forums
             const forums = JSON.parse(localStorage.getItem('forums')) || [];
             forums.forEach((forum, index) => {
-                const forumElement = document.createElement('li');
                 const creationTime = formatTime(forum.timestamp);
+                const forumElement = document.createElement('li');
                 forumElement.className = 'post';
                 forumElement.innerHTML = `<span class="forum-title" onclick="joinForum(${index})">${forum.title}</span>
                                           <div class="timestamp">Created: ${creationTime}</div>
