@@ -7,7 +7,7 @@
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
         
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -23,17 +23,14 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
-        // Function to handle login
-        async function login() {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-
+        // Function to handle Google login
+        async function loginWithGoogle() {
             try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                // Successfully logged in
-                const user = userCredential.user;
-                alert(`Welcome, ${user.email}!`);
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                alert(`Welcome, ${user.displayName}!`);
             } catch (error) {
                 alert(`Error: ${error.message}`);
             }
@@ -50,17 +47,13 @@
             height: 100vh;
             flex-direction: column;
         }
-        input {
-            margin: 10px;
-            padding: 10px;
-            width: 200px;
-        }
         button {
             padding: 10px 20px;
             background-color: blue;
             color: white;
             border: none;
             cursor: pointer;
+            font-size: 16px;
         }
         button:hover {
             background-color: darkblue;
@@ -68,9 +61,7 @@
     </style>
 </head>
 <body>
-    <h1>Login</h1>
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Password" required>
-    <button onclick="login()">Login</button>
+    <h1>Login with Google</h1>
+    <button onclick="loginWithGoogle()">Login with Google</button>
 </body>
 </html>
