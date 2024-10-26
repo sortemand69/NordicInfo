@@ -256,7 +256,7 @@
                 forums[currentForumIndex].messages.push({ username: username, text: text, timestamp: Date.now() });
                 localStorage.setItem('forums', JSON.stringify(forums));
                 messageInput.value = ''; // Clear input
-                loadChatMessages(); // Refresh the chat messages
+                loadChatMessages(); // Refresh chat messages
             } else if (currentForumIndex === null) {
                 alert('Please join a forum first.');
             }
