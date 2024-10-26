@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background: #000000;
+            background: #000000; /* Light background for better contrast */
             color: #333;
             display: flex;
             justify-content: center;
@@ -17,22 +17,22 @@
             margin: 0;
         }
         .container {
-            background: rgb(0, 0, 0);
+            background: rgb(0, 0, 0); /* White background for the form container */
             border-radius: 8px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             padding: 30px;
-            width: 300px;
+            width: 300px; /* Fixed width for better alignment */
         }
         h1 {
             margin-bottom: 20px;
             font-size: 2rem;
-            color: #4a90e2;
+            color: #4a90e2; /* Color for the heading */
         }
         form {
             margin: 20px auto;
         }
         input {
-            width: calc(100% - 20px);
+            width: calc(100% - 20px); /* Full width minus padding */
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ddd;
@@ -41,13 +41,13 @@
             transition: border-color 0.3s;
         }
         input:focus {
-            border-color: #4a90e2;
+            border-color: #4a90e2; /* Blue border on focus */
             outline: none;
         }
         button {
             width: 100%;
             padding: 12px;
-            background: #4a90e2;
+            background: #4a90e2; /* Blue button */
             color: white;
             border: none;
             border-radius: 4px;
@@ -56,11 +56,11 @@
             transition: background 0.3s;
         }
         button:hover {
-            background: #357ab8;
+            background: #357ab8; /* Darker blue on hover */
         }
         .message {
             margin-top: 10px;
-            color: red;
+            color: red; /* Error message color */
             font-size: 0.9rem;
         }
     </style>
@@ -90,6 +90,11 @@
     </div>
 
     <script>
+        // Check if the user is already logged in
+        if (localStorage.getItem('loggedInUser')) {
+            window.location.href = 'index.html'; // Redirect to index.html if logged in
+        }
+
         // Handle Registration
         document.getElementById('register-form').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -99,14 +104,16 @@
 
             // Check if user already exists
             if (localStorage.getItem(username)) {
-                document.getElementById('reg-message').innerText = 'Try another Username';
-                document.getElementById('reg-message').style.color = 'red';
+                document.getElementById('reg-message').innerText = 'User already exists!';
             } else {
                 // Save user data in local storage
                 localStorage.setItem(username, password);
-                document.getElementById('reg-message').innerText = 'Success';
-                document.getElementById('reg-message').style.color = 'green';
-                document.getElementById('register-form').reset();
+                document.getElementById('reg-message').innerText = 'User registered successfully!';
+                document.getElementById('register-form').reset(); // Reset form
+
+                // Automatically log the user in after registration
+                localStorage.setItem('loggedInUser', username);
+                window.location.href = 'index.html'; // Redirect to index.html
             }
         });
 
@@ -119,11 +126,13 @@
 
             // Validate user credentials
             if (localStorage.getItem(username) === password) {
-                document.getElementById('login-message').innerText = 'Success';
-                document.getElementById('login-message').style.color = 'green';
+                document.getElementById('login-message').innerText = 'Login successful! Welcome, ' + username + '!';
+                
+                // Save the login status
+                localStorage.setItem('loggedInUser', username);
+                window.location.href = 'index.html'; // Redirect to index.html
             } else {
                 document.getElementById('login-message').innerText = 'Invalid username or password!';
-                document.getElementById('login-message').style.color = 'red';
             }
         });
     </script>
