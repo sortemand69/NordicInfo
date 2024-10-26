@@ -92,7 +92,7 @@
     <script>
         // Check if the user is already logged in
         if (localStorage.getItem('loggedInUser')) {
-            window.location.href = 'Forum.html'; // Redirect to Forum.html if logged in
+            window.location.href = 'index.html'; // Redirect to index.html if logged in
         }
 
         // Handle Registration
@@ -113,7 +113,7 @@
 
                 // Automatically log the user in after registration
                 localStorage.setItem('loggedInUser', username);
-                window.location.href = 'Forum.html'; // Redirect to Forum.html
+                window.location.href = 'index.html'; // Redirect to index.html
             }
         });
 
@@ -130,7 +130,7 @@
                 
                 // Save the login status
                 localStorage.setItem('loggedInUser', username);
-                window.location.href = 'Forum.html'; // Redirect to Forum.html
+                window.location.href = 'index.html'; // Redirect to index.html
             } else {
                 document.getElementById('login-message').innerText = 'Invalid username or password!';
             }
