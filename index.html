@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nordic Development</title>
+    
+    <!-- Google Analytics Tracking Code -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M94RBQJ23R"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-M94RBQJ23R');
+    </script>
+
+    <style>
+        /* Global and body styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            background-color: black; 
+            font-family: 'Courier New', Courier, monospace; 
+            overflow-y: scroll; 
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+            position: relative; 
+        }
+
+        body::-webkit-scrollbar {
+            display: none; 
+        }
+
+        /* Header styling */
+        header {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7); 
+            padding: 20px;
+            border-bottom: 2px solid grey; 
+            animation: slideDown 0.5s ease-in-out; 
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Animated text */
+        .animated-text {
+            display: inline-block;
+            color: #ffffff;
+            font-size: 3rem;
+        }
+
+        .animated-text span {
+            opacity: 0;
+            animation: fadeLetter 3s infinite;
+            display: inline-block;
+        }
+
+        .animated-text span:nth-child(1) { animation-delay: 0s; }
+
+        @keyframes fadeLetter {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* Main content area */
+        .content {
+            background-color: transparent; 
+            height: 100vh; 
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            color: white;
+            font-size: 1.5rem;
+            overflow: hidden; 
+        }
+
+        /* Image container */
+        .image-container {
+            position: relative; 
+            max-width: 35%; 
+            height: auto;
+            margin-top: 20px; 
+            transition: transform 0.3s ease, filter 0.3s ease; 
+            border-radius: 15px;
+            animation: zoomIn 1s; 
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            transition: opacity 0.3s ease, transform 0.3s ease; 
+            border-radius: 15px; 
+            pointer-events: none; 
+        }
+
+        /* Floating ghost animation */
+        .ghost-container {
+            position: absolute; 
+            width: 40%; 
+            animation: float 3s ease-in-out infinite; 
+            bottom: 0;
+            right: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Description box */
+        .description-box {
+            margin-top: 20px; 
+            padding: 15px; 
+            background-color: rgba(50, 50, 50, 0.8); 
+            border: 1px solid grey; 
+            border-radius: 10px; 
+            color: white; 
+            text-align: center; 
+            width: 35%; 
+            font-family: Arial, sans-serif; 
+            animation: fadeIn 1s ease-in-out; 
+            user-select: none; 
+            text-decoration: none; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+        }
+
+        .description-box:hover {
+            background-color: rgba(70, 70, 70, 0.9); 
+            transform: scale(1.05); 
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Games header */
+        .games-header {
+            font-size: 3rem;
+            color: white;
+            margin-top: 20px;
+            animation: fadeInOut 3s ease-in-out infinite;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* Divider line */
+        .divider {
+            width: 35%;
+            height: 2px;
+            background-color: grey;
+            margin: 20px auto;
+        }
+
+        /* FAQ box */
+        .faq-box {
+            position: fixed;
+            top: 45%;
+            right: 20px;
+            width: 20%;
+            padding: 15px;
+            background-color: rgb(0, 0, 0);
+            color: white;
+            border: 1px solid grey;
+            border-radius: 10px;
+            z-index: 10;
+            overflow-y: auto;
+            max-height: 60%;
+        }
+
+        .faq-box h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .faq-item {
+            margin-bottom: 10px;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 5px;
+            background-color: rgba(70, 70, 70, 0.8);
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+
+        /* News box styling */
+        .news-box {
+            margin-top: 40px; /* increased spacing */
+            padding: 15px;
+            background-color: rgba(60, 60, 60, 0.8);
+            border: 1px solid grey;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            width: 35%;
+            font-family: Arial, sans-serif;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .news-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+            color: #ffffff;
+        }
+
+        .news-box p {
+            font-size: 1.2rem;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .animated-text {
+                font-size: 2rem; 
+            }
+            .content {
+                font-size: 1rem; 
+            }
+            .image-container {
+                max-width: 90%; 
+            }
+            .faq-box {
+                width: 80%;
+                right: 10px; 
+            }
+            .description-box {
+                width: 90%; 
+            }
+            .divider {
+                width: 90%; 
+            }
+            .news-box {
+                width: 90%; 
+            }
+            .games-header {
+                font-size: 2.5rem; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1 class="animated-text">
+            <span>N</span><span>o</span><span>r</span><span>d</span><span>i</span><span>c</span> 
+            <span>D</span><span>e</span><span>v</span><span>e</span><span>l</span><span>o</span><span>p</span><span>m</span><span>e</span><span>n</span><span>t</span>
+        </h1>
+    </header>
+
+    <!-- FAQ Box -->
+    <div class="faq-box">
+        <h2>FAQ</h2>
+        <div class="faq-item">
+            <div class="faq-question">What is Nordic Development?</div>
+            <div class="faq-answer">Nordic Development is a game development studio focused on creating immersive horror games.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">When is your next game releasing?</div>
+            <div class="faq-answer">We plan to release our next game, "Bounded," in December. Stay tuned!</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">How can I support your work?</div>
+            <div class="faq-answer">You can support us by joining our Discord, sharing our games, or providing feedback!</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h2 class="games-header">Games</h2>
+        
+        <div class="image-container" id="image-container">
+            <img id="main-image" src="Background.PNG" alt="Game Background">
+            <div class="ghost-container">
+                <img src="Ghost.png" alt="Ghost 1">
+            </div>
+        </div>
+        
+        <a href="https://discord.gg/EEYc2KZsax" class="description-box">
+            <p>Thanks for visiting Nordic Development! The image you see above this box is a game we have been working on for some time now. We are releasing it in December sometime. Stay tuned!</p>
+        </a>
+        
+        <!-- Divider Line -->
+        <div class="divider"></div>
+
+        <!-- News Box -->
+        <div class="news-box">
+            <h3>News</h3>
+            <p>Welcome to the news section! Here, we will post updates and important announcements related to our games and studio activities.</p>
+        </div>
+    </div>
+
+    <script>
+        // FAQ box functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentNode;
+                item.classList.toggle('open');
+            });
+        });
+    </script>
+
+</body>
+</html>

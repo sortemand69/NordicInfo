@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nordic Development - Login</title>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAR3p1hIOebdRu0XFHRp2S0IRirZ2d1rkc",
+            authDomain: "nordic-1b71e.firebaseapp.com",
+            projectId: "nordic-1b71e",
+            storageBucket: "nordic-1b71e.appspot.com",
+            messagingSenderId: "473272756342",
+            appId: "1:473272756342:web:c1945fddc984dec04f9757",
+            measurementId: "G-91E9KWT751"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Function to handle login
+        async function login() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                // Successfully logged in
+                const user = userCredential.user;
+                alert(`Welcome, ${user.email}!`);
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        input {
+            margin: 10px;
+            padding: 10px;
+            width: 200px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Login</h1>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+</body>
+</html>
