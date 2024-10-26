@@ -154,6 +154,7 @@
         <div class="forum-list">
             <h2>Available Forums</h2>
             <ul id="forums"></ul>
+            <p id="no-forums" style="display:none; color: #bbb;">No forums available. Create one!</p>
         </div>
 
         <div class="chat-form" id="chat-form" style="display:none;">
@@ -188,6 +189,11 @@
             const forumsContainer = document.getElementById('forums');
             forumsContainer.innerHTML = ''; // Clear existing forums
             const forums = JSON.parse(localStorage.getItem('forums')) || [];
+            if (forums.length === 0) {
+                document.getElementById('no-forums').style.display = 'block'; // Show no forums message
+            } else {
+                document.getElementById('no-forums').style.display = 'none'; // Hide no forums message
+            }
             forums.forEach((forum, index) => {
                 const creationTime = formatTime(forum.timestamp);
                 const forumElement = document.createElement('li');
@@ -240,25 +246,15 @@
             });
         }
 
-        // Send a message to the current forum
+        // Send a message in the current forum
         function sendMessage() {
-            const messageInput = document.getElementById('chat-message');
-            const text = messageInput.value.trim();
-            if (text && currentForumIndex !== null) {
-                const currentTime = Date.now();
-                if (currentTime - lastMessageTime < 3000) { // 3 seconds timeout
-                    alert('You can only send a message every 3 seconds.');
-                    return;
-                }
-                lastMessageTime = currentTime;
-
+            const messageText = document.getElementById('chat-message').value.trim();
+            if (messageText && currentForumIndex !== null) {
                 const forums = JSON.parse(localStorage.getItem('forums'));
-                forums[currentForumIndex].messages.push({ username: username, text: text, timestamp: Date.now() });
+                forums[currentForumIndex].messages.push({ username: username, text: messageText, timestamp: Date.now() });
                 localStorage.setItem('forums', JSON.stringify(forums));
-                messageInput.value = ''; // Clear input
-                loadChatMessages(); // Refresh chat messages
-            } else if (currentForumIndex === null) {
-                alert('Please join a forum first.');
+                document.getElementById('chat-message').value = ''; // Clear input
+                loadChatMessages(); // Reload messages
             }
         }
 
