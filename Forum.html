@@ -140,6 +140,8 @@
             margin-top: 5px;
         }
     </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
 
@@ -183,34 +185,43 @@
         let lastMessageTime = 0;
         let currentForumIndex = null; // Track the current forum index
 
+        const socket = io(); // Initialize Socket.IO
+
         // Load existing forums from localStorage
         function loadForums() {
             const forumsContainer = document.getElementById('forums');
             forumsContainer.innerHTML = ''; // Clear existing forums
-            const forums = JSON.parse(localStorage.getItem('forums')) || [];
-            forums.forEach((forum, index) => {
-                const creationTime = formatTime(forum.timestamp);
-                forumElement = document.createElement('li');
-                forumElement.className = 'post';
-                forumElement.innerHTML = `<span class="forum-title" onclick="joinForum(${index})">${forum.title}</span>
-                                          <div class="timestamp">Created: ${creationTime}</div>
-                                          <div class="forum-options">
-                                              <button class="edit-button" onclick="editForum(${index})">Edit</button>
-                                              <button class="delete-button" onclick="deleteForum(${index})">Delete</button>
-                                          </div>`;
-                forumsContainer.appendChild(forumElement);
-            });
+            fetch('/forums')
+                .then(response => response.json())
+                .then(forums => {
+                    forums.forEach((forum, index) => {
+                        const creationTime = formatTime(forum.timestamp);
+                        const forumElement = document.createElement('li');
+                        forumElement.className = 'post';
+                        forumElement.innerHTML = `<span class="forum-title" onclick="joinForum(${index})">${forum.title}</span>
+                                                  <div class="timestamp">Created: ${creationTime}</div>
+                                                  <div class="forum-options">
+                                                      <button class="edit-button" onclick="editForum(${index})">Edit</button>
+                                                      <button class="delete-button" onclick="deleteForum(${index})">Delete</button>
+                                                  </div>`;
+                        forumsContainer.appendChild(forumElement);
+                    });
+                });
         }
 
         // Create a new forum
         function createForum() {
             const title = document.getElementById('forum-title').value.trim();
             if (title) {
-                const forums = JSON.parse(localStorage.getItem('forums')) || [];
-                forums.push({ title: title, messages: [], timestamp: Date.now() }); // Save creation timestamp
-                localStorage.setItem('forums', JSON.stringify(forums));
-                loadForums();
-                document.getElementById('forum-title').value = ''; // Clear input
+                fetch('/forums', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title })
+                }).then(() => {
+                    document.getElementById('forum-title').value = ''; // Clear input
+                });
             }
         }
 
@@ -252,11 +263,9 @@
                 }
                 lastMessageTime = currentTime;
 
-                const forums = JSON.parse(localStorage.getItem('forums'));
-                forums[currentForumIndex].messages.push({ username: username, text: text, timestamp: Date.now() });
-                localStorage.setItem('forums', JSON.stringify(forums));
+                const message = { username: username, text: text, timestamp: Date.now() };
+                socket.emit('sendMessage', currentForumIndex, message); // Emit message to server
                 messageInput.value = ''; // Clear input
-                loadChatMessages(); // Refresh chat messages
             } else if (currentForumIndex === null) {
                 alert('Please join a forum first.');
             }
@@ -290,6 +299,24 @@
 
         // Initialize the forum by loading forums
         loadForums();
+
+        // Listen for new forums created
+        socket.on('forumCreated', (newForum) => {
+            loadForums(); // Reload forums when a new forum is created
+        });
+
+        // Listen for new messages
+        socket.on('newMessage', (forumIndex, message) => {
+            if (forumIndex === currentForumIndex) { // Only load messages if it's the current forum
+                const chatMessagesContainer = document.getElementById('chat-messages');
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message';
+                const messageTime = formatTime(message.timestamp);
+                messageElement.textContent = `${message.username}: ${message.text}`;
+                messageElement.innerHTML += `<div class="timestamp">Sent: ${messageTime}</div>`;
+                chatMessagesContainer.appendChild(messageElement);
+            }
+        });
     </script>
 </body>
 </html>
